@@ -1,9 +1,13 @@
 import './App.css';
+import Article from "./components/Article";
 
 function App() {
   return (
     <div className="App">
-      <h1>HI</h1>
+      <Article />
+      <Article />
+      <Article />
+      <Article />
     </div>
   );
 }
