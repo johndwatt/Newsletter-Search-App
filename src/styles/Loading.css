@@ -1,0 +1,10 @@
+@import url(accessories.css);
+
+.loading-box {
+    color: var(--text-dark);;
+}
+
+.loading-box:hover {
+    background-color: var(--item);
+    color: var(--text-dark);;
+}

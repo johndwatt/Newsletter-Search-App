@@ -1,13 +1,11 @@
 import './App.css';
-import Article from "./components/Article";
+
+import ArticleContainer from "./components/ArticleContainer";
 
 function App() {
   return (
     <div className="App">
-      <Article />
-      <Article />
-      <Article />
-      <Article />
+      <ArticleContainer />
     </div>
   );
 }
