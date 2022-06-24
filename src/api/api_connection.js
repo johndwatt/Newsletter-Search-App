@@ -2,7 +2,7 @@
 const BASE_URL = "https://img.faculty.unlv.edu/lab";
 
 // API DATA URL for requests
-const API_URL = BASE_URL + "/wp-json/wp/v2/"
+const API_URL = BASE_URL + "/wp-json/wp/v2"
 
 // TEMPORARY DATA FOR DEMO - DELETE LATER (from https://img.faculty.unlv.edu/lab/wp-json/wp/v2/pages?per_page=100)
 const DATA_OBJ = [
