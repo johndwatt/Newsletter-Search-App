@@ -6,3 +6,8 @@
 body {
   background-color: var(--background);
 }
+
+.loading {
+	transform: scale(1);
+	animation: pulse 1s infinite;
+}
