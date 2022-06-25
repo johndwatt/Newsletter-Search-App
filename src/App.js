@@ -1,11 +1,11 @@
 import './App.css';
 
-import ArticleContainer from "./components/ArticleContainer";
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
     <div className="App">
-      <ArticleContainer />
+      <SearchPage />
     </div>
   );
 }
