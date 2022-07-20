@@ -1,23 +1,28 @@
+@import url(accessories.css);
+
 /* === SEARCH STYLING === */
 .search-container > form {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: white;
-    border: 2px white solid;
+    background-color: var(--item);
+    border: 2px solid var(--item);
     border-radius: 5px;
     margin: 12px;
     padding: 5px;
+    font-size: 18px;
 }
 
 /* Search input */
 .search-container > form > input {
     padding: 15px;
+    margin-right: 10px;
     border: none;
     border-radius: 5px;
     width: 90%;
-    margin-right: 10px;
+    font-size: 18px;
+    color: var(--text-dark);
 }
 
 .search-container > form > input:hover {
@@ -38,29 +43,19 @@
 }
 
 .search-btns > button {
-    padding: 10px;
-    border: solid 2px var(--background-color);
+    color: var(--text-dark);
+    background-color: var(--item);
+    border: solid 1px var(--item-border);
     border-radius: 5px;
     margin: 0px 10px;
+    padding: 10px;
     cursor: pointer;
     white-space: nowrap;
     transition: 0.2s;
+    font-size: 14px;
 }
 
-/* Dashboard Search Button */
-.search-button {
-    
-}
-
-.search-button:hover {
-
-}
-
-/* Dashboard Clear Button */
-.clear-button {
-
-}
-
-.clear-button:hover {
-
+.search-btns > button:hover {
+    color: var(--text-scarlet);
+    background-color: var(--item-hover);
 }

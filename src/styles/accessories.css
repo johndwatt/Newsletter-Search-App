@@ -6,9 +6,9 @@
     --item-border: #DDDDDD;
     --text-light: rgba(255, 255, 255, 0.90);
     --text-dark: #637A84;
-    --text-scarlet: #b10202
+    --text-scarlet: #b10202;
    
 
     /* Fonts */
-
+    --font: "Roboto", Arial, sans-serif;
 }
