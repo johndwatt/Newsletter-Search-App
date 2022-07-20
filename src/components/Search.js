@@ -9,8 +9,7 @@ function Search(props) {
                 <input 
                     name="search" 
                     type="search"
-                    value=""
-                    placeholder="Search" />
+                    placeholder="Search Articles" />
                 <div className='search-btns'>
                     <button 
                         type="submit" 
@@ -24,7 +23,6 @@ function Search(props) {
                         Clear
                     </button>
                 </div>
-
             </form>
         </div>
     );
