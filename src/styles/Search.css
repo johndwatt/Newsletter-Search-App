@@ -11,7 +11,7 @@
     border-radius: 5px;
     margin: 12px;
     padding: 5px;
-    font-size: 18px;
+    font-size: var(--font-size);
 }
 
 /* Search input */
@@ -52,7 +52,7 @@
     cursor: pointer;
     white-space: nowrap;
     transition: 0.2s;
-    font-size: 14px;
+    font-size: var(--font-size-alt);
 }
 
 .search-btns > button:hover {

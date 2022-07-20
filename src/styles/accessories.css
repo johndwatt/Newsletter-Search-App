@@ -11,4 +11,7 @@
 
     /* Fonts */
     --font: "Roboto", Arial, sans-serif;
+    --font-size: 18px;
+    --font-size-alt: 14px;
+    --font-weight: 300;
 }
