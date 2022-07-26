@@ -9,7 +9,7 @@ function Search(props) {
                 <input 
                     name="search" 
                     type="search"
-                    placeholder="Search Articles" />
+                    placeholder="Search titles, authors, and key words" />
                 <div className='search-btns'>
                     <button 
                         type="submit" 
