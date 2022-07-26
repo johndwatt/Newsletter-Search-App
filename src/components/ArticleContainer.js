@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DATA_OBJ} from "../api/api_connection"
+import { API_URL } from "../api/api_connection";
 // import axios from 'axios';
 
 import Article from './Article'
@@ -34,20 +34,30 @@ function ArticleContainer(props) {
             }
         }
 
-        let data = JSON.parse(JSON.stringify(DATA_OBJ));
+        async function getData() {
+            // edit this
+            let response  = await fetch(`${API_URL}/pages`);
+            // console.log("RESPONSE:", response);
+            let data = await response.json();
+            // console.log("DATA:", data);
+            let dataMod = data.map((article) => {
+                return {
+                    date: formatDateStr(article.date),
+                    title: formatTitleStr(article.title.rendered, article.slug),
+                    author: formatAuthorStr(article.content.rendered),
+                    link: article.link,
+                    id: article.id,
+                } 
+            });
+            // console.log("DATAMOD:", dataMod);
+            return setArticles(dataMod);
+        }
 
-        let dataMod = data.map((article) => {
-            return {
-                date: formatDateStr(article.date),
-                title: formatTitleStr(article.title.rendered, article.slug),
-                author: formatAuthorStr(article.content.rendered),
-                link: article.link,
-                id: article.id,
-            } 
-        });
-        setArticles(dataMod);
+        getData();
 
     }, []);
+
+    console.log("ARTICLES:", articles);
 
     return (
         <main className='article-container'>
@@ -55,6 +65,7 @@ function ArticleContainer(props) {
             <div className='article-container-display'>
                 { articles.length > 0 ? (
                     // try to set up auth headers and actually get the real data from wordpress site with your password stuff
+                        // working currently, but may break, make sure you are signed into browser
                     articles.map((article) => {
                         return (
                             <Article 
@@ -67,8 +78,8 @@ function ArticleContainer(props) {
                     })
                 ) : (
                     <div className='no-articles'>
-                        <h3>No articles found!</h3>
-                        <p>Please try again later.</p>
+                        <h3>No articles found with that search criteria!</h3>
+                        <p>Please use a different search term or try again later.</p>
                     </div>
                 )}
             </div>
