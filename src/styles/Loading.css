@@ -1,10 +1,19 @@
 @import url(accessories.css);
 
 .loading-box {
-    color: var(--text-dark);;
+    background-color: var(--item);
+    border: 1px solid var(--item-border);
+    margin: 10px;
+    padding: 25px;
+    border-radius: 5px;
+    color: var(--text-dark)
 }
 
-.loading-box:hover {
-    background-color: var(--item);
-    color: var(--text-dark);;
+.loading-title {
+    margin-bottom: 10px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
 }

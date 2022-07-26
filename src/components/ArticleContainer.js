@@ -4,6 +4,7 @@ import { API_URL } from "../api/api_connection";
 
 import Article from './Article'
 import Search from './Search'
+import Loading from './Loading'
 
 import "../styles/ArticleContainer.css"
 
@@ -62,6 +63,7 @@ function ArticleContainer(props) {
     return (
         <main className='article-container'>
             <Search />
+            <Loading />
             <div className='article-container-display'>
                 { articles.length > 0 ? (
                     // try to set up auth headers and actually get the real data from wordpress site with your password stuff
