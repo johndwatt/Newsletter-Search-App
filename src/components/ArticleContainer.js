@@ -53,7 +53,7 @@ function ArticleContainer(props) {
             return setArticles(dataMod);
         }
 
-        getData();
+        // getData();
 
     }, []);
 
