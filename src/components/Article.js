@@ -11,11 +11,7 @@ function Article(props) {
                     <h3 className='article-title'>{props.title}</h3>
                     <p className='article-date'>{props.date}</p>
                 </div>
-                <div className='flex'>
-                    <p className='article-author'>{props.author}</p>
-                    <p className='article-section'>{props.id}</p>
-                </div>
-
+                <p className='article-author'>{props.author}</p>
             </section>
         </a>
     );
