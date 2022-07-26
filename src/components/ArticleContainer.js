@@ -20,16 +20,15 @@ function ArticleContainer(props) {
         const formatAuthorStr = function (str) {
             let author = str.match(/<em>by(.*?)</i);
             if (author) {
-                return author[1]
+                return `by ${author[1]}`
             } else {
                 return "Spotlight";
             }
         }
         
         const formatTitleStr = function (str, alt) {
-            let title = str.match(/<h1>(.*?)</i);
-            if (title) {
-                return title[1];
+            if (str) {
+                return str;
             } else {
                 return alt;
             }
@@ -40,7 +39,7 @@ function ArticleContainer(props) {
         let dataMod = data.map((article) => {
             return {
                 date: formatDateStr(article.date),
-                title: formatTitleStr(article.content.rendered, article.title.rendered),
+                title: formatTitleStr(article.title.rendered, article.slug),
                 author: formatAuthorStr(article.content.rendered),
                 link: article.link,
                 id: article.id,
@@ -50,17 +49,13 @@ function ArticleContainer(props) {
 
     }, []);
 
-    console.log(articles);
-
     return (
         <main className='article-container'>
             <Search />
             <div className='article-container-display'>
                 { articles.length > 0 ? (
-                    // PROBLEM HERE: will not display article because each article is a JS object, need to compare to shower thoughts and see what happens there. How to parse properly so that the data can be gathered?
                     // try to set up auth headers and actually get the real data from wordpress site with your password stuff
                     articles.map((article) => {
-                        // console.log(article);
                         return (
                             <Article 
                             key={article.id}

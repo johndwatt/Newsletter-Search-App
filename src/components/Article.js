@@ -12,7 +12,7 @@ function Article(props) {
                     <p className='article-date'>{props.date}</p>
                 </div>
                 <div className='flex'>
-                    <p className='article-author'>by {props.author}</p>
+                    <p className='article-author'>{props.author}</p>
                     <p className='article-section'>{props.id}</p>
                 </div>
 
