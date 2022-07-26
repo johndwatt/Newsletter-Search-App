@@ -10,32 +10,32 @@ import "../styles/ArticleContainer.css"
 function ArticleContainer(props) {
     const [articles, setArticles] = useState([]);
 
-    useEffect(() => {
-        const formatDateStr = function (str) {
-            const dateObj = new Date(str);
-            let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
-            return `${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+    const formatDateStr = function (str) {
+        const dateObj = new Date(str);
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
+        return `${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+    }
+    
+    const formatAuthorStr = function (str) {
+        let author = str.match(/<em>by(.*?)</i);
+        if (author) {
+            return `by ${author[1]}`
+        } else {
+            return "Spotlight";
         }
-        
-        const formatAuthorStr = function (str) {
-            let author = str.match(/<em>by(.*?)</i);
-            if (author) {
-                return `by ${author[1]}`
-            } else {
-                return "Spotlight";
-            }
+    }
+    
+    const formatTitleStr = function (str, alt) {
+        if (str) {
+            return str;
+        } else {
+            return alt;
         }
-        
-        const formatTitleStr = function (str, alt) {
-            if (str) {
-                return str;
-            } else {
-                return alt;
-            }
-        }
+    }
 
-        async function getData() {
-            // edit this
+    useEffect(() => {
+
+        const getData = async function () {
             let response  = await fetch(`${API_URL}/pages`);
             // console.log("RESPONSE:", response);
             let data = await response.json();
@@ -53,11 +53,11 @@ function ArticleContainer(props) {
             return setArticles(dataMod);
         }
 
-        // getData();
+        getData();
 
     }, []);
 
-    console.log("ARTICLES:", articles);
+    // console.log("ARTICLES:", articles);
 
     return (
         <main className='article-container'>
