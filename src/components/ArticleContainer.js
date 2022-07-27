@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from "../api/api_connection";
-// import axios from 'axios';
 
 import Article from './Article'
 import Search from './Search'
@@ -10,7 +9,7 @@ import "../styles/ArticleContainer.css"
 
 function ArticleContainer(props) {
     const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const formatDateStr = function (str) {
         const dateObj = new Date(str);
@@ -28,30 +27,28 @@ function ArticleContainer(props) {
     }
 
     useEffect(() => {
-
-        setLoading(true);
-
         const getData = async function () {
-            let response  = await fetch(`${API_URL}/pages`);
-            // console.log("RESPONSE:", response);
-            let data = await response.json();
-            // console.log("DATA:", data);
-            let dataMod = await data.map((article) => {
-                return {
-                    date: formatDateStr(article.date),
-                    title: article.title.rendered,
-                    author: formatAuthorStr(article.content.rendered),
-                    link: article.link,
-                    id: article.id,
-                } 
-            });
-            // console.log("DATAMOD:", dataMod);
-            return setArticles(dataMod);
+            try {
+                setLoading(true);
+                let response = await fetch(`${API_URL}/pages`);
+                let data = await response.json();
+                let dataMod = await data.map((article) => {
+                    return {
+                        date: formatDateStr(article.date),
+                        title: article.title.rendered,
+                        author: formatAuthorStr(article.content.rendered),
+                        link: article.link,
+                        id: article.id,
+                    } 
+                });
+                setLoading(false);
+                return setArticles(dataMod);
+            } catch(error) {
+                console.error(error);
+            }
         }
 
         getData();
-
-        setLoading(false);
 
     }, []);
 
@@ -85,7 +82,6 @@ function ArticleContainer(props) {
                     )}
                 </div>
             )}
-
         </main>
     );
 }
