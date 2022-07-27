@@ -10,6 +10,7 @@ import "../styles/ArticleContainer.css"
 
 function ArticleContainer(props) {
     const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const formatDateStr = function (str) {
         const dateObj = new Date(str);
@@ -25,26 +26,20 @@ function ArticleContainer(props) {
             return "Spotlight";
         }
     }
-    
-    const formatTitleStr = function (str, alt) {
-        if (str) {
-            return str;
-        } else {
-            return alt;
-        }
-    }
 
     useEffect(() => {
+
+        setLoading(true);
 
         const getData = async function () {
             let response  = await fetch(`${API_URL}/pages`);
             // console.log("RESPONSE:", response);
             let data = await response.json();
             // console.log("DATA:", data);
-            let dataMod = data.map((article) => {
+            let dataMod = await data.map((article) => {
                 return {
                     date: formatDateStr(article.date),
-                    title: formatTitleStr(article.title.rendered, article.slug),
+                    title: article.title.rendered,
                     author: formatAuthorStr(article.content.rendered),
                     link: article.link,
                     id: article.id,
@@ -56,6 +51,8 @@ function ArticleContainer(props) {
 
         getData();
 
+        setLoading(false);
+
     }, []);
 
     // console.log("ARTICLES:", articles);
@@ -63,28 +60,32 @@ function ArticleContainer(props) {
     return (
         <main className='article-container'>
             <Search />
-            <Loading />
-            <div className='article-container-display'>
-                { articles.length > 0 ? (
-                    // try to set up auth headers and actually get the real data from wordpress site with your password stuff
-                        // working currently, but may break, make sure you are signed into browser
-                    articles.map((article) => {
-                        return (
-                            <Article 
-                            key={article.id}
-                            title={article.title}
-                            author={article.author}
-                            date={article.date}
-                            link={article.link} />
-                        )
-                    })
-                ) : (
-                    <div className='no-articles'>
-                        <h3>No articles found with that search criteria!</h3>
-                        <p>Please use a different search term or try again later.</p>
-                    </div>
-                )}
-            </div>
+            { loading ? (
+                <Loading />
+            ) : (
+                <div className='article-container-display'>
+                    { articles.length > 0 ? (
+                        // try to set up auth headers and actually get the real data from wordpress site with your password stuff
+                            // working currently, but may break, make sure you are signed into browser
+                        articles.map((article) => {
+                            return (
+                                <Article 
+                                key={article.id}
+                                title={article.title}
+                                author={article.author}
+                                date={article.date}
+                                link={article.link} />
+                            )
+                        })
+                    ) : (
+                        <div className='no-articles'>
+                            <h3>No articles found with that search criteria!</h3>
+                            <p>Please use a different search term or try again later.</p>
+                        </div>
+                    )}
+                </div>
+            )}
+
         </main>
     );
 }
