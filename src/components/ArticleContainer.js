@@ -52,8 +52,6 @@ function ArticleContainer(props) {
 
     }, []);
 
-    // console.log("ARTICLES:", articles);
-
     return (
         <main className='article-container'>
             <Search />
