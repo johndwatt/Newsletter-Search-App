@@ -156,8 +156,8 @@ function ArticleContainer(props) {
                         })
                     ) : (
                         <div className='no-articles'>
-                            <h3>No articles found with that search criteria!</h3>
-                            <p>Please use a different search term or try again later.</p>
+                            <h3>No articles found with that search criteria.</h3>
+                            <p>You could try different search terms.</p>
                         </div>
                     )}
                 </div>
