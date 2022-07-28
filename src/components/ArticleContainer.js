@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { API_URL } from "../api/api_connection";
 
 import Article from './Article'
-import Search from './Search'
 import Loading from './Loading'
 
 import "../styles/ArticleContainer.css"
+import "../styles/Search.css"
 
 function ArticleContainer(props) {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
 
     const formatDateStr = function (str) {
         const dateObj = new Date(str);
@@ -52,9 +53,90 @@ function ArticleContainer(props) {
 
     }, []);
 
+    /**
+     * Sets search query to value of search input on page.
+     * @param {Object} e Event Object.
+     */
+    const handleSearchInput = (e) => {
+        setSearch(e.target.value);
+    }
+    
+    /**
+     * Clears search state/input and sends request to reload articles page.
+     * @param {Object} e Event Object.
+     */
+    const handleClearSearch = async (e) => {
+        e.preventDefault();
+
+        setSearch("");
+        setLoading(true);
+
+        let response = await fetch(`${API_URL}/pages`);
+        let data = await response.json();
+        let dataMod = await data.map((article) => {
+            return {
+                date: formatDateStr(article.date),
+                title: article.title.rendered,
+                author: formatAuthorStr(article.content.rendered),
+                link: article.link,
+                id: article.id,
+            } 
+        });
+        setArticles(dataMod);
+
+        setLoading(false);
+    }
+        
+    /**
+     * Sends equest with search query and loads returned articles.
+     * @param {Object} e Event object.
+     */
+    const handleSearch = async (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        let response = await fetch(`${API_URL}/pages?search=${search}`);
+        let data = await response.json();
+        let dataMod = await data.map((article) => {
+            return {
+                date: formatDateStr(article.date),
+                title: article.title.rendered,
+                author: formatAuthorStr(article.content.rendered),
+                link: article.link,
+                id: article.id,
+            } 
+        });
+        setArticles(dataMod);
+
+        setLoading(false);
+    }
+
     return (
         <main className='article-container'>
-            <Search />
+            <div className='search-container'>
+                <form>
+                    <input 
+                        name="search" 
+                        type="search"
+                        value={search}
+                        onChange={handleSearchInput}
+                        placeholder="Search titles, authors, and key words" />
+                    <div className='search-btns'>
+                        <button 
+                            type="submit" 
+                            className='search-button'
+                            onClick={handleSearch}>
+                            Search
+                        </button>
+                        <button
+                            className='clear-button'
+                            onClick={handleClearSearch}>
+                            Clear
+                        </button>
+                    </div>
+                </form>
+            </div>
             { loading ? (
                 <Loading />
             ) : (
