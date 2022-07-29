@@ -1,6 +1,5 @@
 import React from 'react';
 
-import "../styles/Article.css"
 import "../styles/Loading.css"
 
 function Loading(props) {
