@@ -12,12 +12,22 @@ function ArticleContainer(props) {
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
 
+    /**
+     * Formats ISO-8601 date string to display year and abbreviated month (three characters). Converts string to date object, then formats with string interpolation. 
+     * @param {String} str Date string in ISO-8601 format. Example: "2022-07-20T08:32:39".
+     * @returns Formatted date string as "Mon Year". 
+     */
     const formatDateStr = function (str) {
         const dateObj = new Date(str);
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
         return `${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
     }
     
+    /**
+     * Formats author string from Wordpress page content using regex.
+     * @param {String} str Large block of Wordpress HTML content in string format.
+     * @returns String with extracted author name or "Spotlight" if no author is found. 
+     */
     const formatAuthorStr = function (str) {
         let author = str.match(/<em>by(.*?)</i);
         if (author) {
@@ -28,6 +38,10 @@ function ArticleContainer(props) {
     }
 
     useEffect(() => {
+        /**
+         * Sends request to Wordpress REST API for latest 10 articles and formats returned articles. 
+         * @returns Modified data as article state. 
+         */
         const getData = async function () {
             try {
                 setLoading(true);
@@ -62,7 +76,7 @@ function ArticleContainer(props) {
     }
     
     /**
-     * Clears search state/input and sends request to reload articles page.
+     * Clears search state/input and sends request to reload articles.
      * @param {Object} e Event Object.
      */
     const handleClearSearch = async (e) => {
@@ -88,7 +102,7 @@ function ArticleContainer(props) {
     }
         
     /**
-     * Sends equest with search query and loads returned articles.
+     * Sends request to Wordpress REST API with search query and loads formatted returned articles.
      * @param {Object} e Event object.
      */
     const handleSearch = async (e) => {
@@ -142,8 +156,6 @@ function ArticleContainer(props) {
             ) : (
                 <div className='article-container-display'>
                     { articles.length > 0 ? (
-                        // try to set up auth headers and actually get the real data from wordpress site with your password stuff
-                            // working currently, but may break, make sure you are signed into browser
                         articles.map((article) => {
                             return (
                                 <Article 
