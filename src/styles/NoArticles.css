@@ -1,6 +1,26 @@
 @import url(accessories.css);
 
-/* === SEARCH STYLING === */
+/* === NO ARTICLES STYLING === */
+.no-articles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 12px;
+    padding: 15px;
+    border: 1px solid var(--item);
+    border-radius: 5px;
+    background-color: var(--item);
+}
+
+.no-articles > * {
+    color: var(--text-dark);
+    margin: 15px 0px;
+}
+
+.no-articles > h3 {
+    margin: 12px 0px;
+}/* === SEARCH STYLING === */
 .search-container > form {
     display: flex;
     flex-direction: row;

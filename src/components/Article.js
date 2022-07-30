@@ -3,7 +3,6 @@ import React from 'react';
 import "../styles/Article.css"
 
 function Article(props) {
-
     return (
         <a href={props.link} className='article-link'>
             <section className='article-box'>
