@@ -64,7 +64,6 @@ function SearchPage(props) {
         }
 
         getData();
-
     }, []);
 
     /**
@@ -82,8 +81,8 @@ function SearchPage(props) {
     const handleClearSearch = async (e) => {
         e.preventDefault();
 
-        setSearch("");
         setLoading(true);
+        setSearch("");
 
         let response = await fetch(`${API_URL}/pages`);
         let data = await response.json();
@@ -96,8 +95,8 @@ function SearchPage(props) {
                 id: article.id,
             } 
         });
-        setArticles(dataMod);
 
+        setArticles(dataMod);
         setLoading(false);
     }
         
@@ -121,8 +120,8 @@ function SearchPage(props) {
                 id: article.id,
             } 
         });
-        setArticles(dataMod);
 
+        setArticles(dataMod);
         setLoading(false);
     }
 
