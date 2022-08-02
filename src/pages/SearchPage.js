@@ -7,6 +7,8 @@ import NoArticles from '../components/NoArticles';
 
 import "../styles/SearchPage.css";
 
+const URL = `${API_URL}/pages?_fields=id,title,link,date,content`
+
 function SearchPage(props) {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -47,7 +49,7 @@ function SearchPage(props) {
         const getData = async function () {
             try {
                 setLoading(true);
-                let response = await fetch(`${API_URL}/pages`);
+                let response = await fetch(URL);
                 let data = await response.json();
                 let dataMod = await data.map((article) => {
                     return {
@@ -88,7 +90,7 @@ function SearchPage(props) {
         setPage(1);
         setErr(null);
 
-        let response = await fetch(`${API_URL}/pages`);
+        let response = await fetch(URL);
         let data = await response.json();
         let dataMod = await data.map((article) => {
             return {
@@ -113,7 +115,7 @@ function SearchPage(props) {
 
         setLoading(true);
 
-        let response = await fetch(`${API_URL}/pages?search=${search}`);
+        let response = await fetch(`${URL}&search=${search}`);
         let data = await response.json();
         let dataMod = await data.map((article) => {
             return {
@@ -140,9 +142,9 @@ function SearchPage(props) {
 
         let response = null;
         if (search){
-            response = await fetch(`${API_URL}/pages?search=${search}&page=${page+1}`);
+            response = await fetch(`${URL}&search=${search}&page=${page+1}`);
         } else {
-            response = await fetch(`${API_URL}/pages?page=${page+1}`);
+            response = await fetch(`${URL}&page=${page+1}`);
         }
         let data = await response.json();
         if (response.status === 200) {
@@ -183,9 +185,9 @@ function SearchPage(props) {
 
         let response = null;
         if (search){
-            response = await fetch(`${API_URL}/pages?search=${search}&page=${currentPage}`);
+            response = await fetch(`${URL}&search=${search}&page=${currentPage}`);
         } else {
-            response = await fetch(`${API_URL}/pages?page=${currentPage}`);
+            response = await fetch(`${URL}&page=${currentPage}`);
         }
         let data = await response.json();
         let dataMod = await data.map((article) => {
