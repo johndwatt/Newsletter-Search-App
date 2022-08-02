@@ -133,40 +133,36 @@ function SearchPage(props) {
      * Clears search state/input and sends request to reload articles.
      * @param {Object} e Event Object.
      */
-         const handleNextPage = async (e) => {
-            e.preventDefault();
-    
-            setLoading(true);
+    const handleNextPage = async (e) => {
+        e.preventDefault();
 
-            let response = null;
-            if (search){
-                response = await fetch(`${API_URL}/pages?search=${search}&page=${page+1}`);
-            } else {
-                response = await fetch(`${API_URL}/pages?page=${page+1}`);
-            }
-            console.log({response});
-            let data = await response.json();
-            console.log({data});
-            if (response.status === 200) {
-                let dataMod = await data.map((article) => {
-                    return {
-                        date: formatDateStr(article.date),
-                        title: article.title.rendered,
-                        author: formatAuthorStr(article.content.rendered),
-                        link: article.link,
-                        id: article.id,
-                    } 
-                });
-                setPage(page+1);
-                setArticles(dataMod);
-            } else {
-                setPage(page+1);
-                setErr(data.message);
-                setArticles([]);
-            }
+        setLoading(true);
 
-            setLoading(false);
+        let response = null;
+        if (search){
+            response = await fetch(`${API_URL}/pages?search=${search}&page=${page+1}`);
+        } else {
+            response = await fetch(`${API_URL}/pages?page=${page+1}`);
         }
+        let data = await response.json();
+        if (response.status === 200) {
+            let dataMod = await data.map((article) => {
+                return {
+                    date: formatDateStr(article.date),
+                    title: article.title.rendered,
+                    author: formatAuthorStr(article.content.rendered),
+                    link: article.link,
+                    id: article.id,
+                } 
+            });
+            setArticles(dataMod);
+        } else {
+            setErr(data.message);
+            setArticles([]);
+        }
+        setPage(page+1);
+        setLoading(false);
+    }
 
     /**
      * Clears search state/input and sends request to reload articles.
@@ -238,7 +234,10 @@ function SearchPage(props) {
                 <div className='article-container'>
                     { err ? (
                         <div className='error-container'>
-                            <p>{err}</p>
+                            <div className='no-articles'>
+                                <h3>{err}</h3>
+                                <p>Please return to the previous page or select clear above.</p>
+                            </div>
                             <form className='pagination-container'>
                                 <button
                                     onClick={handlePrevPage}>
@@ -269,10 +268,18 @@ function SearchPage(props) {
                             <NoArticles />
                         )}
                             <form className='pagination-container'>
-                                <button
-                                    onClick={handlePrevPage}>
-                                    Prev
-                                </button>
+                                { page === 1 ? (
+                                    <button
+                                        className='disabled'
+                                        disabled>
+                                        Prev
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handlePrevPage}>
+                                        Prev
+                                    </button>
+                                )}
                                 <p className='current-page'>{page}</p>
                                 <button
                                     onClick={handleNextPage}>
