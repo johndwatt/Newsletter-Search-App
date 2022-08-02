@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-.search-btns > button {
+button {
     color: var(--text-dark);
     background-color: var(--item);
     border: solid 1px var(--item-border);
@@ -55,7 +55,21 @@
     font-size: var(--font-size-alt);
 }
 
-.search-btns > button:hover {
+button:hover {
     color: var(--text-scarlet);
     background-color: var(--item-hover);
+}
+
+/* === PAGINATION STYLING === */
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--item);
+    border: 2px solid var(--item);
+    border-radius: 5px;
+    margin: 12px;
+    padding: 5px;
+    font-size: var(--font-size);
 }

@@ -11,6 +11,8 @@ function SearchPage(props) {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [err, setErr] = useState(null);
 
     /**
      * Formats ISO-8601 date string to display year and abbreviated month (three characters). Converts string to date object, then formats with string interpolation. 
@@ -83,6 +85,8 @@ function SearchPage(props) {
 
         setLoading(true);
         setSearch("");
+        setPage(1);
+        setErr(null);
 
         let response = await fetch(`${API_URL}/pages`);
         let data = await response.json();
@@ -120,7 +124,84 @@ function SearchPage(props) {
                 id: article.id,
             } 
         });
+        setPage(1);
+        setArticles(dataMod);
+        setLoading(false);
+    }
 
+    /**
+     * Clears search state/input and sends request to reload articles.
+     * @param {Object} e Event Object.
+     */
+         const handleNextPage = async (e) => {
+            e.preventDefault();
+    
+            setLoading(true);
+
+            let response = null;
+            if (search){
+                response = await fetch(`${API_URL}/pages?search=${search}&page=${page+1}`);
+            } else {
+                response = await fetch(`${API_URL}/pages?page=${page+1}`);
+            }
+            console.log({response});
+            let data = await response.json();
+            console.log({data});
+            if (response.status === 200) {
+                let dataMod = await data.map((article) => {
+                    return {
+                        date: formatDateStr(article.date),
+                        title: article.title.rendered,
+                        author: formatAuthorStr(article.content.rendered),
+                        link: article.link,
+                        id: article.id,
+                    } 
+                });
+                setPage(page+1);
+                setArticles(dataMod);
+            } else {
+                setPage(page+1);
+                setErr(data.message);
+                setArticles([]);
+            }
+
+            setLoading(false);
+        }
+
+    /**
+     * Clears search state/input and sends request to reload articles.
+     * @param {Object} e Event Object.
+     */
+    const handlePrevPage = async (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+        setErr(null);
+
+        let currentPage = page;
+        if (currentPage - 1 < 1) {
+            currentPage = 1;
+        } else {
+            currentPage--;
+        }
+
+        let response = null;
+        if (search){
+            response = await fetch(`${API_URL}/pages?search=${search}&page=${currentPage}`);
+        } else {
+            response = await fetch(`${API_URL}/pages?page=${currentPage}`);
+        }
+        let data = await response.json();
+        let dataMod = await data.map((article) => {
+            return {
+                date: formatDateStr(article.date),
+                title: article.title.rendered,
+                author: formatAuthorStr(article.content.rendered),
+                link: article.link,
+                id: article.id,
+            } 
+        });
+        setPage(currentPage);
         setArticles(dataMod);
         setLoading(false);
     }
@@ -150,26 +231,59 @@ function SearchPage(props) {
                     </div>
                 </form>
             </div>
+            <div className='article-container'>
             { loading ? (
                 <Loading />
             ) : (
                 <div className='article-container'>
-                    { articles.length > 0 ? (
-                        articles.map((article) => {
-                            return (
-                                <Article 
-                                key={article.id}
-                                title={article.title}
-                                author={article.author}
-                                date={article.date}
-                                link={article.link} />
-                            )
-                        })
+                    { err ? (
+                        <div className='error-container'>
+                            <p>{err}</p>
+                            <form className='pagination-container'>
+                                <button
+                                    onClick={handlePrevPage}>
+                                    Prev
+                                </button>
+                                <p className='current-page'>{page}</p>
+                                <button
+                                    className='disabled'
+                                    disabled>
+                                    Next
+                                </button>
+                            </form>
+                        </div>
                     ) : (
-                        <NoArticles />
+                        <div className='results-container'>
+                        { articles.length > 0 ? (
+                            articles.map((article) => {
+                                return (
+                                    <Article 
+                                    key={article.id}
+                                    title={article.title}
+                                    author={article.author}
+                                    date={article.date}
+                                    link={article.link} />
+                                )
+                            })
+                        ) : (
+                            <NoArticles />
+                        )}
+                            <form className='pagination-container'>
+                                <button
+                                    onClick={handlePrevPage}>
+                                    Prev
+                                </button>
+                                <p className='current-page'>{page}</p>
+                                <button
+                                    onClick={handleNextPage}>
+                                    Next
+                                </button>
+                            </form>
+                        </div>
                     )}
                 </div>
             )}
+            </div>
         </main>
     );
 }
