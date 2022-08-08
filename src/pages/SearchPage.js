@@ -282,7 +282,7 @@ function SearchPage(props) {
                                         Prev
                                     </button>
                                 )}
-                                <p className='current-page'>{page}</p>
+                                <p className='current-page'>Page {page}</p>
                                 <button
                                     onClick={handleNextPage}>
                                     Next
