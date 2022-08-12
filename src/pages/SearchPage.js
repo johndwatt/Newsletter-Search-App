@@ -16,6 +16,9 @@ function SearchPage(props) {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
+    const [pp1Checked, setpp1Checked] = useState(false);
+    const [pp2Checked, setpp2Checked] = useState(false);
+    const [pp3Checked, setpp3Checked] = useState(false);
     const [err, setErr] = useState(null);
 
     /**
@@ -55,8 +58,34 @@ function SearchPage(props) {
      * Sets the number of articles to load to selected radio option.
      * @param {Object} e Event Object.
      */
-    const handlePerPageInput = (e) => {
+    const handlePerPageInput1 = (e) => {
         setPerPage(e.target.value);
+        setpp1Checked(true);
+        setpp2Checked(false);
+        setpp3Checked(false);
+    }
+
+    /**
+     * Sets the number of articles to load to selected radio option.
+     * @param {Object} e Event Object.
+     */
+    const handlePerPageInput2 = (e) => {
+        setPerPage(e.target.value);
+        setpp1Checked(false);
+        setpp2Checked(true);
+        setpp3Checked(false);
+    }
+
+    /**
+     * Sets the number of articles to load to selected radio option.
+     * @param {Object} e Event Object.
+     */
+    const handlePerPageInput3 = (e) => {
+        setPerPage(e.target.value);
+        setpp1Checked(false);
+        setpp2Checked(false);
+        setpp3Checked(true);
+        
     }
 
     /**
@@ -87,7 +116,7 @@ function SearchPage(props) {
         } catch (error) {
             setLoading(false);
             if (error.message === "data.map is not a function") {
-                setErr("Current page and results per page mismatch.");
+                setErr("Current page and results per page mismatch. Do not change results per page when not on the first page.");
             } else {
                 setErr(error.message);
             }
@@ -105,6 +134,10 @@ function SearchPage(props) {
         setLoading(true);
         setSearch("");
         setPage(1);
+        setPerPage(20);
+        setpp1Checked(false);
+        setpp2Checked(false);
+        setpp3Checked(false);
         setErr(null);
         setSubmitted(false);
         setArticles([]);
@@ -187,7 +220,7 @@ function SearchPage(props) {
         } catch (error){
             setLoading(false);
             if (error.message === "data.map is not a function") {
-                setErr("Current page and results per page mismatch.");
+                setErr("Current page and results per page mismatch. Do not change results per page when not on the first page.");
             } else {
                 setErr(error.message);
             }
@@ -215,7 +248,8 @@ function SearchPage(props) {
                                     type="radio" 
                                     id="perPage10"
                                     value="10" 
-                                    onChange={handlePerPageInput} />
+                                    checked={pp1Checked}
+                                    onChange={handlePerPageInput1} />
                                 <label>10</label>
                             </div>
                             <div>
@@ -224,7 +258,8 @@ function SearchPage(props) {
                                     type="radio" 
                                     id="perPage40"
                                     value="40"
-                                    onChange={handlePerPageInput} />
+                                    checked={pp2Checked}
+                                    onChange={handlePerPageInput2} />
                                 <label>40</label>
                             </div>
                             <div>
@@ -233,7 +268,8 @@ function SearchPage(props) {
                                     type="radio" 
                                     id="perPage100"
                                     value="100"
-                                    onChange={handlePerPageInput} />
+                                    checked={pp3Checked}
+                                    onChange={handlePerPageInput3} />
                                 <label>100</label>
                             </div>
                         </div>
