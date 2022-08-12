@@ -15,7 +15,7 @@ function SearchPage(props) {
     const [submitted, setSubmitted] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState(null);
     const [err, setErr] = useState(null);
 
     /**
@@ -52,12 +52,32 @@ function SearchPage(props) {
     }
 
     /**
-     * Sets the number of articles to load to value of per page input.
+     * Sets the number of articles to load to 10.
      * @param {Object} e Event Object.
      */
-    const handlePerPageInput = (e) => {
-        setPerPage(e.target.value);
+    const handlePerPageInput10 = (e) => {
+        setPerPage(10);
+        console.log(perPage);
     }
+
+    /**
+     * Sets the number of articles to load to 40.
+     * @param {Object} e Event Object.
+     */
+    const handlePerPageInput40 = (e) => {
+        setPerPage(40);
+        console.log(perPage);
+    }
+
+    /**
+     * Sets the number of articles to load to 100.
+     * @param {Object} e Event Object.
+     */
+    const handlePerPageInput100 = (e) => {
+        setPerPage(100);
+        console.log(perPage);
+    }
+
 
     /**
      * Sends request to Wordpress REST API with search query and loads formatted returned articles.
@@ -148,7 +168,7 @@ function SearchPage(props) {
             currentPage--;
         }
 
-        let response = await fetch(`${URL}&search=${search}&page=${currentPage}`);
+        let response = await fetch(`${URL}&search=${search}&page=${currentPage}&per_page=${perPage}`);
         let data = await response.json();
         let dataMod = await data.map((article) => {
             return {
@@ -174,12 +194,38 @@ function SearchPage(props) {
                         value={search}
                         onChange={handleSearchInput}
                         placeholder="Search titles, authors, and key words" />
-                    <input 
-                        name="per-page" 
-                        type="number"
-                        value={perPage}
-                        onChange={handlePerPageInput}
-                        placeholder="Number of Articles Per Page" />
+                    <div className='per-page-radio'>
+                        <label>Results Per Page:</label>
+                        <div className='per-page-radio-options'>
+                            <div>
+                                <input 
+                                    name="contact"
+                                    type="radio" 
+                                    id="perPage10"
+                                    value="10" 
+                                    onChange={handlePerPageInput10} />
+                                <label>10</label>
+                            </div>
+                            <div>
+                                <input 
+                                    name="contact"
+                                    type="radio" 
+                                    id="perPage40"
+                                    value="40"
+                                    onChange={handlePerPageInput40} />
+                                <label>40</label>
+                            </div>
+                            <div>
+                                <input 
+                                    name="contact"
+                                    type="radio" 
+                                    id="perPage100"
+                                    value="100"
+                                    onChange={handlePerPageInput100} />
+                                <label>100</label>
+                            </div>
+                        </div>
+                    </div>
                     <div className='search-btns'>
                         <button 
                             type="submit" 

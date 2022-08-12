@@ -101,3 +101,26 @@ button:hover {
     text-align: center;
     color: var(--text-dark);
 }
+
+/* === RADIO STYLING === */
+.per-page-radio {
+    padding: 10px;
+    color: var(--text-dark);
+    font-size: var(--font-size-alt);
+    font-family: var(--font);
+}
+
+.per-page-radio-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.per-page-radio-options > div {
+    padding: 10px;
+    display: flex;
+}
+
+.per-page-radio-options > div > label {
+    padding-left: 5px;
+}
