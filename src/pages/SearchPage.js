@@ -15,7 +15,7 @@ function SearchPage(props) {
     const [submitted, setSubmitted] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(null);
+    const [perPage, setPerPage] = useState(20);
     const [err, setErr] = useState(null);
 
     /**
@@ -52,57 +52,47 @@ function SearchPage(props) {
     }
 
     /**
-     * Sets the number of articles to load to 10.
+     * Sets the number of articles to load to selected radio option.
      * @param {Object} e Event Object.
      */
-    const handlePerPageInput10 = (e) => {
-        setPerPage(10);
-        console.log(perPage);
+    const handlePerPageInput = (e) => {
+        setPerPage(e.target.value);
     }
-
-    /**
-     * Sets the number of articles to load to 40.
-     * @param {Object} e Event Object.
-     */
-    const handlePerPageInput40 = (e) => {
-        setPerPage(40);
-        console.log(perPage);
-    }
-
-    /**
-     * Sets the number of articles to load to 100.
-     * @param {Object} e Event Object.
-     */
-    const handlePerPageInput100 = (e) => {
-        setPerPage(100);
-        console.log(perPage);
-    }
-
 
     /**
      * Sends request to Wordpress REST API with search query and loads formatted returned articles.
      * @param {Object} e Event object.
      */
     const handleSearch = async (e) => {
-        e.preventDefault();
+        try {
+            e.preventDefault();
 
-        setLoading(true);
-
-        let response = await fetch(`${URL}&search=${search}&per_page=${perPage}`);
-        let data = await response.json();
-        let dataMod = await data.map((article) => {
-            return {
-                date: formatDateStr(article.date),
-                title: article.title.rendered,
-                author: formatAuthorStr(article.content.rendered),
-                link: article.link,
-                id: article.id,
-            } 
-        });
-        setPage(1);
-        setSubmitted(true);
-        setArticles(dataMod);
-        setLoading(false);
+            setLoading(true);
+    
+            let response = await fetch(`${URL}&search=${search}&per_page=${perPage}`);
+            let data = await response.json();
+            let dataMod = await data.map((article) => {
+                return {
+                    date: formatDateStr(article.date),
+                    title: article.title.rendered,
+                    author: formatAuthorStr(article.content.rendered),
+                    link: article.link,
+                    id: article.id,
+                } 
+            });
+            setPage(1);
+            setSubmitted(true);
+            setArticles(dataMod);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            if (error.message === "data.map is not a function") {
+                setErr("Current page and results per page mismatch.");
+            } else {
+                setErr(error.message);
+            }
+            console.log(error);
+        }
     }
     
     /**
@@ -126,13 +116,62 @@ function SearchPage(props) {
      * @param {Object} e Event Object.
      */
     const handleNextPage = async (e) => {
-        e.preventDefault();
+        try {
+            e.preventDefault();
 
-        setLoading(true);
+            setLoading(true);
 
-        let response = await fetch(`${URL}&search=${search}&page=${page+1}`);
-        let data = await response.json();
-        if (response.status === 200) {
+            let response = await fetch(`${URL}&search=${search}&page=${page+1}&per_page=${perPage}`);
+            let data = await response.json();
+            if (response.status === 200) {
+                let dataMod = await data.map((article) => {
+                    return {
+                        date: formatDateStr(article.date),
+                        title: article.title.rendered,
+                        author: formatAuthorStr(article.content.rendered),
+                        link: article.link,
+                        id: article.id,
+                    } 
+                });
+                setArticles(dataMod);
+            } else {
+                setErr(data.message);
+                setArticles([]);
+            }
+            setPage(page+1);
+            setLoading(false);
+        } catch (error){
+            setLoading(false);
+            if (error.message === "data.map is not a function") {
+                setErr("Current page and results per page mismatch. Do not change results per page when not on the first page.");
+            } else {
+                setErr(error.message);
+            }
+            console.log(error);
+        }
+
+    }
+
+    /**
+     * Clears search state/input and sends request to reload articles.
+     * @param {Object} e Event Object.
+     */
+    const handlePrevPage = async (e) => {
+        try {
+            e.preventDefault();
+
+            setLoading(true);
+            setErr(null);
+
+            let currentPage = page;
+            if (currentPage - 1 < 1) {
+                currentPage = 1;
+            } else {
+                currentPage--;
+            }
+
+            let response = await fetch(`${URL}&search=${search}&page=${currentPage}&per_page=${perPage}`);
+            let data = await response.json();
             let dataMod = await data.map((article) => {
                 return {
                     date: formatDateStr(article.date),
@@ -142,46 +181,19 @@ function SearchPage(props) {
                     id: article.id,
                 } 
             });
+            setPage(currentPage);
             setArticles(dataMod);
-        } else {
-            setErr(data.message);
-            setArticles([]);
+            setLoading(false);
+        } catch (error){
+            setLoading(false);
+            if (error.message === "data.map is not a function") {
+                setErr("Current page and results per page mismatch.");
+            } else {
+                setErr(error.message);
+            }
+            console.log(error);
         }
-        setPage(page+1);
-        setLoading(false);
-    }
-
-    /**
-     * Clears search state/input and sends request to reload articles.
-     * @param {Object} e Event Object.
-     */
-    const handlePrevPage = async (e) => {
-        e.preventDefault();
-
-        setLoading(true);
-        setErr(null);
-
-        let currentPage = page;
-        if (currentPage - 1 < 1) {
-            currentPage = 1;
-        } else {
-            currentPage--;
-        }
-
-        let response = await fetch(`${URL}&search=${search}&page=${currentPage}&per_page=${perPage}`);
-        let data = await response.json();
-        let dataMod = await data.map((article) => {
-            return {
-                date: formatDateStr(article.date),
-                title: article.title.rendered,
-                author: formatAuthorStr(article.content.rendered),
-                link: article.link,
-                id: article.id,
-            } 
-        });
-        setPage(currentPage);
-        setArticles(dataMod);
-        setLoading(false);
+ 
     }
 
     return (
@@ -199,29 +211,29 @@ function SearchPage(props) {
                         <div className='per-page-radio-options'>
                             <div>
                                 <input 
-                                    name="contact"
+                                    name="perPage"
                                     type="radio" 
                                     id="perPage10"
                                     value="10" 
-                                    onChange={handlePerPageInput10} />
+                                    onChange={handlePerPageInput} />
                                 <label>10</label>
                             </div>
                             <div>
                                 <input 
-                                    name="contact"
+                                    name="perPage"
                                     type="radio" 
                                     id="perPage40"
                                     value="40"
-                                    onChange={handlePerPageInput40} />
+                                    onChange={handlePerPageInput} />
                                 <label>40</label>
                             </div>
                             <div>
                                 <input 
-                                    name="contact"
+                                    name="perPage"
                                     type="radio" 
                                     id="perPage100"
                                     value="100"
-                                    onChange={handlePerPageInput100} />
+                                    onChange={handlePerPageInput} />
                                 <label>100</label>
                             </div>
                         </div>
@@ -249,7 +261,8 @@ function SearchPage(props) {
                     { err ? (
                         <div className='error-container'>
                             <div className='no-articles'>
-                                <h3>{err}</h3>
+                                <h3>Something went wrong.</h3>
+                                <p>Error: {err}</p>
                                 <p>Please return to the previous page or select clear above.</p>
                             </div>
                             <form className='pagination-container'>
