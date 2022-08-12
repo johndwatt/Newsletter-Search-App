@@ -55,7 +55,7 @@ function SearchPage(props) {
     }
 
     /**
-     * Sets the number of articles to load to selected radio option.
+     * Sets the number of articles to load to first radio option.
      * @param {Object} e Event Object.
      */
     const handlePerPageInput1 = (e) => {
@@ -66,7 +66,7 @@ function SearchPage(props) {
     }
 
     /**
-     * Sets the number of articles to load to selected radio option.
+     * Sets the number of articles to load to second radio option.
      * @param {Object} e Event Object.
      */
     const handlePerPageInput2 = (e) => {
@@ -77,7 +77,7 @@ function SearchPage(props) {
     }
 
     /**
-     * Sets the number of articles to load to selected radio option.
+     * Sets the number of articles to load to third radio option.
      * @param {Object} e Event Object.
      */
     const handlePerPageInput3 = (e) => {
@@ -145,7 +145,7 @@ function SearchPage(props) {
     }
 
     /**
-     * Clears search state/input and sends request to reload articles.
+     * Sends request to Wordpress REST API with search query to get the next page of articles and format them.
      * @param {Object} e Event Object.
      */
     const handleNextPage = async (e) => {
@@ -186,7 +186,7 @@ function SearchPage(props) {
     }
 
     /**
-     * Clears search state/input and sends request to reload articles.
+     * Sends request to Wordpress REST API with search query to get the previous page of articles and format them.
      * @param {Object} e Event Object.
      */
     const handlePrevPage = async (e) => {
