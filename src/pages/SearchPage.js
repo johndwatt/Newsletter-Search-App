@@ -15,6 +15,7 @@ function SearchPage(props) {
     const [submitted, setSubmitted] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(10);
     const [err, setErr] = useState(null);
 
     /**
@@ -51,6 +52,14 @@ function SearchPage(props) {
     }
 
     /**
+     * Sets the number of articles to load to value of per page input.
+     * @param {Object} e Event Object.
+     */
+    const handlePerPageInput = (e) => {
+        setPerPage(e.target.value);
+    }
+
+    /**
      * Sends request to Wordpress REST API with search query and loads formatted returned articles.
      * @param {Object} e Event object.
      */
@@ -59,7 +68,7 @@ function SearchPage(props) {
 
         setLoading(true);
 
-        let response = await fetch(`${URL}&search=${search}`);
+        let response = await fetch(`${URL}&search=${search}&per_page=${perPage}`);
         let data = await response.json();
         let dataMod = await data.map((article) => {
             return {
@@ -165,6 +174,12 @@ function SearchPage(props) {
                         value={search}
                         onChange={handleSearchInput}
                         placeholder="Search titles, authors, and key words" />
+                    <input 
+                        name="per-page" 
+                        type="number"
+                        value={perPage}
+                        onChange={handlePerPageInput}
+                        placeholder="Number of Articles Per Page" />
                     <div className='search-btns'>
                         <button 
                             type="submit" 
