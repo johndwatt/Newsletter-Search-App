@@ -12,6 +12,7 @@ const URL = `${API_URL}/pages?_fields=id,title,link,date,content`
 function SearchPage(props) {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [err, setErr] = useState(null);
@@ -41,35 +42,6 @@ function SearchPage(props) {
         }
     }
 
-    useEffect(() => {
-        /**
-         * Sends request to Wordpress REST API for latest 10 articles and formats returned articles. 
-         * @returns Modified data as article state. 
-         */
-        const getData = async function () {
-            try {
-                setLoading(true);
-                let response = await fetch(URL);
-                let data = await response.json();
-                let dataMod = await data.map((article) => {
-                    return {
-                        date: formatDateStr(article.date),
-                        title: article.title.rendered,
-                        author: formatAuthorStr(article.content.rendered),
-                        link: article.link,
-                        id: article.id,
-                    } 
-                });
-                setLoading(false);
-                return setArticles(dataMod);
-            } catch(error) {
-                console.error(error);
-            }
-        }
-
-        getData();
-    }, []);
-
     /**
      * Sets search query to value of search input on page.
      * @param {Object} e Event Object.
@@ -77,35 +49,7 @@ function SearchPage(props) {
     const handleSearchInput = (e) => {
         setSearch(e.target.value);
     }
-    
-    /**
-     * Clears search state/input and sends request to reload articles.
-     * @param {Object} e Event Object.
-     */
-    const handleClearSearch = async (e) => {
-        e.preventDefault();
 
-        setLoading(true);
-        setSearch("");
-        setPage(1);
-        setErr(null);
-
-        let response = await fetch(URL);
-        let data = await response.json();
-        let dataMod = await data.map((article) => {
-            return {
-                date: formatDateStr(article.date),
-                title: article.title.rendered,
-                author: formatAuthorStr(article.content.rendered),
-                link: article.link,
-                id: article.id,
-            } 
-        });
-
-        setArticles(dataMod);
-        setLoading(false);
-    }
-        
     /**
      * Sends request to Wordpress REST API with search query and loads formatted returned articles.
      * @param {Object} e Event object.
@@ -127,7 +71,24 @@ function SearchPage(props) {
             } 
         });
         setPage(1);
+        setSubmitted(true);
         setArticles(dataMod);
+        setLoading(false);
+    }
+    
+    /**
+     * Clears search state/input and resets all other state to initial load values.
+     * @param {Object} e Event Object.
+     */
+    const handleClearSearch = async (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+        setSearch("");
+        setPage(1);
+        setErr(null);
+        setSubmitted(false);
+        setArticles([]);
         setLoading(false);
     }
 
@@ -140,12 +101,7 @@ function SearchPage(props) {
 
         setLoading(true);
 
-        let response = null;
-        if (search){
-            response = await fetch(`${URL}&search=${search}&page=${page+1}`);
-        } else {
-            response = await fetch(`${URL}&page=${page+1}`);
-        }
+        let response = await fetch(`${URL}&search=${search}&page=${page+1}`);
         let data = await response.json();
         if (response.status === 200) {
             let dataMod = await data.map((article) => {
@@ -183,12 +139,7 @@ function SearchPage(props) {
             currentPage--;
         }
 
-        let response = null;
-        if (search){
-            response = await fetch(`${URL}&search=${search}&page=${currentPage}`);
-        } else {
-            response = await fetch(`${URL}&page=${currentPage}`);
-        }
+        let response = await fetch(`${URL}&search=${search}&page=${currentPage}`);
         let data = await response.json();
         let dataMod = await data.map((article) => {
             return {
@@ -254,40 +205,50 @@ function SearchPage(props) {
                             </form>
                         </div>
                     ) : (
-                        <div className='results-container'>
-                        { articles.length > 0 ? (
-                            articles.map((article) => {
-                                return (
-                                    <Article 
-                                    key={article.id}
-                                    title={article.title}
-                                    author={article.author}
-                                    date={article.date}
-                                    link={article.link} />
-                                )
-                            })
-                        ) : (
-                            <NoArticles />
-                        )}
-                            <form className='pagination-container'>
-                                { page === 1 ? (
-                                    <button
-                                        className='disabled'
-                                        disabled>
-                                        Prev
-                                    </button>
+                        <div>
+                            { submitted ? (
+                            <div className='results-container'>
+                                { articles.length > 0 ? (
+                                    articles.map((article) => {
+                                        return (
+                                            <Article 
+                                            key={article.id}
+                                            title={article.title}
+                                            author={article.author}
+                                            date={article.date}
+                                            link={article.link} />
+                                        )
+                                    })
                                 ) : (
-                                    <button
-                                        onClick={handlePrevPage}>
-                                        Prev
-                                    </button>
+                                    <NoArticles />
                                 )}
-                                <p className='current-page'>Page {page}</p>
-                                <button
-                                    onClick={handleNextPage}>
-                                    Next
-                                </button>
-                            </form>
+                                { articles.length > 0 ? (
+                                    <form className='pagination-container'>
+                                        { page === 1 ? (
+                                            <button
+                                                className='disabled'
+                                                disabled>
+                                                Prev
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={handlePrevPage}>
+                                                Prev
+                                            </button>
+                                        )}
+                                        <p className='current-page'>Page {page}</p>
+                                        <button
+                                            onClick={handleNextPage}>
+                                            Next
+                                        </button>
+                                    </form>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     )}
                 </div>
