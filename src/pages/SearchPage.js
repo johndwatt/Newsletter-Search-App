@@ -47,6 +47,18 @@ function SearchPage(props) {
     }
 
     /**
+     * Formats title string from Wordpress page content using regex to remove special HTML entities. Does not work for non-numeric entities.
+     * @param {String} str Rendered Title from Wordpress.
+     * @returns String with all special HTML entities decoded. 
+     */
+    const formatTitleStr = function (str) {
+        return str.replace((/&#([0-9]{1,5});/gi), function(match, nums) {
+            let num = parseInt(nums, 10);
+            return String.fromCharCode(num);
+        });
+    }
+
+    /**
      * Sets search query to value of search input on page.
      * @param {Object} e Event Object.
      */
@@ -103,12 +115,13 @@ function SearchPage(props) {
             let dataMod = await data.map((article) => {
                 return {
                     date: formatDateStr(article.date),
-                    title: article.title.rendered,
+                    title: formatTitleStr(article.title.rendered),
                     author: formatAuthorStr(article.content.rendered),
                     link: article.link,
                     id: article.id,
                 } 
             });
+            console.log("SEARCH DATAMOD", dataMod);
             setPage(1);
             setSubmitted(true);
             setArticles(dataMod);
@@ -160,7 +173,7 @@ function SearchPage(props) {
                 let dataMod = await data.map((article) => {
                     return {
                         date: formatDateStr(article.date),
-                        title: article.title.rendered,
+                        title: formatTitleStr(article.title.rendered),
                         author: formatAuthorStr(article.content.rendered),
                         link: article.link,
                         id: article.id,
@@ -208,7 +221,7 @@ function SearchPage(props) {
             let dataMod = await data.map((article) => {
                 return {
                     date: formatDateStr(article.date),
-                    title: article.title.rendered,
+                    title: formatTitleStr(article.title.rendered),
                     author: formatAuthorStr(article.content.rendered),
                     link: article.link,
                     id: article.id,
