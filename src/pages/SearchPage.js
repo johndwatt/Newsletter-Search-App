@@ -35,12 +35,26 @@ function SearchPage(props) {
     /**
      * Formats author string from Wordpress page content using regex.
      * @param {String} str Large block of Wordpress HTML content in string format.
-     * @returns String with extracted author name or "Spotlight" if no author is found. 
+     * @param {String} title Wordpress rendered title string.
+     * @returns String with extracted author name, "Other" for select pages, or "Spotlight" if no author is found. 
      */
-    const formatAuthorStr = function (str) {
+    const formatAuthorStr = function (str, title) {
         let author = str.match(/<em>by(.*?)</i);
+        let match = title.match(/Issue ([0-9]{1,3})/gi);
         if (author) {
             return `by ${author[1]}`
+        } else if (match ||
+                   title === "Calendar" || 
+                   title === "Newsletter" ||
+                   title === "Workshops" ||
+                   title === "Conference Presentations" ||
+                   title === "Contact Us" ||
+                   title === "How to Join" ||
+                   title === "Team Members" ||
+                   title === "Home" ||
+                   title === "Research" ||
+                   title === "POES"){
+            return "Other";
         } else {
             return "Spotlight";
         }
@@ -116,7 +130,7 @@ function SearchPage(props) {
                 return {
                     date: formatDateStr(article.date),
                     title: formatTitleStr(article.title.rendered),
-                    author: formatAuthorStr(article.content.rendered),
+                    author: formatAuthorStr(article.content.rendered, article.title.rendered),
                     link: article.link,
                     id: article.id,
                 } 
@@ -174,7 +188,7 @@ function SearchPage(props) {
                     return {
                         date: formatDateStr(article.date),
                         title: formatTitleStr(article.title.rendered),
-                        author: formatAuthorStr(article.content.rendered),
+                        author: formatAuthorStr(article.content.rendered, article.title.rendered),
                         link: article.link,
                         id: article.id,
                     } 
@@ -222,7 +236,7 @@ function SearchPage(props) {
                 return {
                     date: formatDateStr(article.date),
                     title: formatTitleStr(article.title.rendered),
-                    author: formatAuthorStr(article.content.rendered),
+                    author: formatAuthorStr(article.content.rendered, article.title.rendered),
                     link: article.link,
                     id: article.id,
                 } 
