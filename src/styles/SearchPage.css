@@ -1,36 +1,45 @@
 @import url(accessories.css);
 
 /* === SEARCH STYLING === */
-.search-container > form {
+
+.search-container {
+    display: flex;
+}
+
+.options {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+}
+
+.search-container > form {
+    display: flex;
+    flex-direction: column;
     background-color: var(--item);
     border: 2px solid var(--item);
     border-radius: 5px;
-    margin: 12px;
+    margin: 12px 0px;
     padding: 5px;
+    width: 100%;
     font-size: var(--font-size);
 }
 
 /* Search input */
-.search-container > form > input {
+.search-container > form > div > input {
     padding: 15px;
     margin-right: 10px;
     border: none;
     border-radius: 5px;
-    width: 90%;
+    width: 100%; 
     font-size: 18px;
     color: var(--text-dark);
 }
 
-.search-container > form > input:hover {
+.search-container > form > div > input:hover {
     transform: scale(1.005);
     transition: 0.3s;
 }
 
-.search-container > form > input:focus {
+.search-container > form > div > input:focus {
     outline: none;
 }
 
@@ -47,7 +56,7 @@ button {
     background-color: var(--item);
     border: solid 1px var(--item-border);
     border-radius: 5px;
-    margin: 0px 10px;
+    margin: 0px 3px;
     padding: 10px;
     cursor: pointer;
     white-space: nowrap;
@@ -104,7 +113,7 @@ button:hover {
 
 /* === RADIO STYLING === */
 .per-page-radio {
-    padding: 10px;
+    padding: 5px; 
     color: var(--text-dark);
     font-size: var(--font-size-alt);
     font-family: var(--font);
@@ -123,4 +132,47 @@ button:hover {
 
 .per-page-radio-options > div > label {
     padding-left: 5px;
+}
+
+
+/* === MEDIA QUERIES === */
+@media only screen and (min-width: 360px){
+    .per-page-radio {
+        padding: 10px; 
+    }
+
+    button {
+        margin: 0px 10px;
+    }
+
+    .input-div {
+        width: 100%;
+    }
+
+    .input-div > input {
+        width: 100%;
+    }
+
+    .options {
+        justify-content: center;
+    }
+}
+
+@media only screen and (min-width: 600px){
+    .search-container > form {
+        margin: 12px;
+    }
+}
+
+
+@media only screen and (min-width: 750px){
+    .search-container > form {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .options {
+        justify-content: right;
+    }
 }

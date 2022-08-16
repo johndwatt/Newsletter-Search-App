@@ -3,7 +3,7 @@
 .loading-box {
     background-color: var(--item);
     border: 1px solid var(--item-border);
-    margin: 10px;
+    margin: 10px 0px;
     padding: 25px;
     border-radius: 5px;
     color: var(--text-dark)
@@ -13,7 +13,16 @@
     margin-bottom: 10px;
 }
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+.loading-author {
+    margin-top: 10px;
+}
+
+@media only screen and (min-width: 600px){
+    .loading-author {
+        margin-top: 0px;
+    }
+
+    .loading-box {
+        margin: 10px;
+    }
 }

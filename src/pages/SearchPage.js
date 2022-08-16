@@ -260,59 +260,63 @@ function SearchPage(props) {
         <main className='search-page'>
             <div className='search-container'>
                 <form>
-                    <input 
-                        name="search" 
-                        type="search"
-                        value={search}
-                        onChange={handleSearchInput}
-                        placeholder="Search titles, authors, and key words" />
-                    <div className='per-page-radio'>
-                        <label>Results Per Page:</label>
-                        <div className='per-page-radio-options'>
-                            <div>
-                                <input 
-                                    name="perPage"
-                                    type="radio" 
-                                    id="perPage10"
-                                    value="10" 
-                                    checked={pp1Checked}
-                                    onChange={handlePerPageInput1} />
-                                <label>10</label>
-                            </div>
-                            <div>
-                                <input 
-                                    name="perPage"
-                                    type="radio" 
-                                    id="perPage40"
-                                    value="40"
-                                    checked={pp2Checked}
-                                    onChange={handlePerPageInput2} />
-                                <label>40</label>
-                            </div>
-                            <div>
-                                <input 
-                                    name="perPage"
-                                    type="radio" 
-                                    id="perPage100"
-                                    value="100"
-                                    checked={pp3Checked}
-                                    onChange={handlePerPageInput3} />
-                                <label>100</label>
+                    <div className="input-div">
+                        <input 
+                            name="search" 
+                            type="search"
+                            value={search}
+                            onChange={handleSearchInput}
+                            placeholder="Search titles, authors, and key words" />
+                    </div>
+                    <div className='options'>
+                        <div className='per-page-radio'>
+                            <label>Results Per Page:</label>
+                            <div className='per-page-radio-options'>
+                                <div>
+                                    <input 
+                                        name="perPage"
+                                        type="radio" 
+                                        id="perPage10"
+                                        value="10" 
+                                        checked={pp1Checked}
+                                        onChange={handlePerPageInput1} />
+                                    <label>10</label>
+                                </div>
+                                <div>
+                                    <input 
+                                        name="perPage"
+                                        type="radio" 
+                                        id="perPage40"
+                                        value="40"
+                                        checked={pp2Checked}
+                                        onChange={handlePerPageInput2} />
+                                    <label>40</label>
+                                </div>
+                                <div>
+                                    <input 
+                                        name="perPage"
+                                        type="radio" 
+                                        id="perPage100"
+                                        value="100"
+                                        checked={pp3Checked}
+                                        onChange={handlePerPageInput3} />
+                                    <label>100</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='search-btns'>
-                        <button 
-                            type="submit" 
-                            className='search-button'
-                            onClick={handleSearch}>
-                            Search
-                        </button>
-                        <button
-                            className='clear-button'
-                            onClick={handleClearSearch}>
-                            Clear
-                        </button>
+                        <div className='search-btns'>
+                            <button 
+                                type="submit" 
+                                className='search-button'
+                                onClick={handleSearch}>
+                                Search
+                            </button>
+                            <button
+                                className='clear-button'
+                                onClick={handleClearSearch}>
+                                Clear
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
