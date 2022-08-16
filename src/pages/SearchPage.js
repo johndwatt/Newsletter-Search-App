@@ -135,7 +135,7 @@ function SearchPage(props) {
                     id: article.id,
                 } 
             });
-            console.log("SEARCH DATAMOD", dataMod);
+
             setPage(1);
             setSubmitted(true);
             setArticles(dataMod);
