@@ -45,8 +45,9 @@ function SearchPage(props) {
             return `by ${author[1]}`
         } else if (match ||
                    title === "Calendar" || 
-                   title === "Newsletter" ||
-                   title === "Workshops" ||
+                   title === "Newsletter") {
+            return "Overview";
+        } else if (title === "Workshops" ||
                    title === "Conference Presentations" ||
                    title === "Contact Us" ||
                    title === "How to Join" ||
