@@ -196,7 +196,12 @@ function SearchPage(props) {
                 });
                 setArticles(dataMod);
             } else {
-                setErr(data.message);
+                console.log("next message", data.message);
+                if (data.message === "The page number requested is larger than the number of pages available.") {
+                    setErr("No more results available.");
+                } else {
+                    setErr(data.message);
+                }
                 setArticles([]);
             }
             setPage(page+1);
