@@ -8,7 +8,7 @@ A client-requested freelance project, Newsletter Search App adds search function
 
 == The App ==
 
-Newsletter Search App is a single-page React application that leverages the Wordpress REST API to render newsletter article links as components. It features the ability to search newsletter pages on the existing [Interactive Measurement Group](https://img.faculty.unlv.edu/lab/) lab website, set specific results per page returns, pagination for returned results, and integration of React and Wordpress via ReactPress and LocalWP. The app demonstrates complex error handling, a responsive mobile-first design, and integration with the existing Mars UNLV Wordpress Theme. 
+Newsletter Search App is a single-page React application that leverages the Wordpress REST API to render newsletter article links as components. It features the ability to search newsletter pages on the existing [Interactive Measurement Group](https://img.faculty.unlv.edu/lab/) lab website, set results returned per page, pagination for returned results, and integration of React and Wordpress via ReactPress and LocalWP. The app demonstrates complex error handling, a responsive mobile-first design, and integration with the existing Mars UNLV Wordpress Theme. 
 
 == Lessons and Takeaways ==
 
