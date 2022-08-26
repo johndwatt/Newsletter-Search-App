@@ -1,0 +1,56 @@
+@import url(accessories.css);
+
+a.article-link {
+    text-decoration: none !important;
+    color: var(--text-dark);
+}
+
+section.article-box {
+    background-color: var(--item) !important;
+    border: 1px solid var(--item-border) !important;
+    margin: 10px 0px !important;
+    padding: 25px !important;
+    border-radius: 5px !important;
+}
+
+section.article-box:hover {
+    background-color: var(--item-hover) !important;
+    color: var(--text-scarlet) !important;
+}
+
+h3.article-title {
+    margin-bottom: 10px !important;
+    font-family: var(--font) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-heading) !important;
+}
+
+p.article-author {
+    margin-top: 10px !important;
+}
+
+p.article-author, p.article-date {
+    font-size: var(--font-size) !important;
+    font-family: var(--font) !important;
+    font-weight: var(--font-weight) !important;
+}
+
+div.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media only screen and (min-width: 600px){
+    div.flex {
+        flex-direction: row;
+    }
+
+    p.article-author {
+        margin-top: 0px !important;
+    }
+
+    section.article-box {
+        margin: 10px !important;
+    }
+}

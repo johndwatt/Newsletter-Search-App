@@ -1,0 +1,39 @@
+@import url(accessories.css);
+
+/* === NO ARTICLES STYLING === */
+div.no-articles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0px;
+    padding: 15px;
+    border: 1px solid var(--item);
+    border-radius: 5px;
+    background-color: var(--item);
+}
+
+div.no-articles > * {
+    color: var(--text-dark);
+    margin: 15px 0px;
+}
+
+div.no-articles > h3 {
+    margin: 12px 0px;
+    font-family: var(--font) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-heading) !important;
+}
+
+div.no-articles > p {
+    font-family: var(--font) !important;
+    font-weight: 400 !important;
+    font-size: var(--font-size) !important;
+}
+
+
+@media only screen and (min-width: 600px){
+    div.no-articles {
+        margin: 12px;
+    }
+}

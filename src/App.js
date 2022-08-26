@@ -1,9 +1,11 @@
 import './App.css';
 
+import SearchPage from './pages/SearchPage';
+
 function App() {
   return (
     <div className="App">
-      <h1>HI</h1>
+      <SearchPage />
     </div>
   );
 }

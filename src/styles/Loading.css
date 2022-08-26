@@ -1,0 +1,37 @@
+@import url(accessories.css);
+
+section.loading-box {
+    background-color: var(--item);
+    border: 1px solid var(--item-border);
+    margin: 10px 0px;
+    padding: 25px;
+    border-radius: 5px;
+    color: var(--text-dark)
+}
+
+h3.loading-title {
+    margin-bottom: 10px;
+    font-family: var(--font) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-heading) !important;
+}
+
+p.loading-author {
+    margin-top: 10px;
+}
+
+p.loading-author, p.loading-date {
+    font-size: var(--font-size) !important;
+    font-family: var(--font) !important;
+    font-weight: var(--font-weight) !important;
+}
+
+@media only screen and (min-width: 600px){
+    p.loading-author {
+        margin-top: 0px;
+    }
+
+    section.loading-box {
+        margin: 10px;
+    }
+}

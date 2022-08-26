@@ -1,0 +1,186 @@
+@import url(accessories.css);
+
+main.search-page p:last-child {
+    margin-bottom: 0px;
+}
+
+/* === SEARCH STYLING === */
+div.search-container {
+    display: flex;
+}
+
+div.options {
+    display: flex;
+    flex-direction: row;
+}
+
+div.search-container > form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--item);
+    border: 2px solid var(--item);
+    border-radius: 5px;
+    margin: 12px 0px;
+    padding: 5px;
+    width: 100%;
+    font-size: var(--font-size);
+}
+
+/* Search input */
+div.search-container > form > div > input {
+    padding: 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%; 
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+div.search-container > form > div > input:hover {
+    transform: scale(1.005);
+    transition: 0.3s;
+}
+
+div.search-container > form > div > input:focus {
+    outline: none;
+}
+
+/* Search Buttons */
+div.search-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+button.button {
+    color: var(--text-dark) !important;
+    background-color: var(--item) !important;
+    border: solid 1px var(--item-border) !important;
+    border-radius: 5px !important;
+    margin: 0px 3px !important;
+    padding: 10px !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: 0.2s !important;
+    font-size: var(--font-size-alt) !important;
+    font-weight: 400 !important;
+}
+
+button.button:hover {
+    color: var(--text-scarlet) !important;
+    background-color: var(--item-hover) !important;
+}
+
+/* === PAGINATION STYLING === */
+form.pagination-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--item);
+    border: 2px solid var(--item);
+    border-radius: 5px;
+    margin: 12px;
+    padding: 5px;
+    font-size: var(--font-size);
+}
+
+p.current-page {
+    color: var(--text-dark);
+    font-size: var(--font-size);
+    margin: 0;
+}
+
+button.disabled {
+    background-color: var(--background) !important;
+    border: 1px solid var(--background) !important;
+    color: var(--text-light) !important;
+}
+
+button.disabled:hover {
+    background-color: var(--background) !important;
+    color: var(--text-light) !important;
+    cursor: default !important;
+}
+
+/* === RADIO STYLING === */
+#perPage100, #perPage40, #perPage10 {
+    margin: 0;
+}
+
+div.per-page-radio {
+    padding: 5px; 
+    color: var(--text-dark);
+    font-size: var(--font-size-alt);
+    font-family: var(--font);
+}
+
+div.per-page-radio-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.per-page-radio-options > div {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.per-page-radio-options > div > label {
+    padding-left: 5px;
+}
+
+div.per-page-radio label {
+    font-weight: 400 !important;
+    color: var(--text-dark);
+    font-size: var(--font-size-alt);
+    font-family: var(--font);
+    margin: 0;
+}
+
+
+/* === MEDIA QUERIES === */
+@media only screen and (min-width: 360px){
+    div.per-page-radio {
+        padding: 10px; 
+    }
+
+    button {
+        margin: 0px 10px;
+    }
+
+    div.input-div {
+        width: 100%;
+    }
+
+    div.input-div > input {
+        width: 100%;
+    }
+
+    div.options {
+        justify-content: center;
+    }
+}
+
+@media only screen and (min-width: 600px){
+    div.search-container > form {
+        margin: 12px;
+    }
+}
+
+
+@media only screen and (min-width: 750px){
+    div.search-container > form {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    div.options {
+        justify-content: right;
+    }
+}

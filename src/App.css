@@ -1,4 +1,29 @@
+@import url(/src/styles/accessories.css);
+
 * {
   margin: 0;
   padding: 0;
+}
+
+body {
+  background-color: var(--background);
+  font-size: var(--font-size) !important;
+  font-family: var(--font) !important;
+  font-weight: var(--font-weight) !important;
+}
+
+.loading {
+	animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.6;
+	}
+	100% {
+		opacity: 1;
+	}
 }
